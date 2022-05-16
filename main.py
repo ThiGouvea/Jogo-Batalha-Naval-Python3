@@ -1,6 +1,6 @@
 from random import randint
 
-#print('Projeto de jogo de Batalha naval') 2 3 3 4 5
+# print('Projeto de jogo de Batalha naval') 2 3 3 4 5
 
 print('''
 ----Este é um jogo de Batalha Naval----
@@ -18,7 +18,8 @@ def telaInicial():
     resposta = input('Resposta: ')
     while resposta not in "12":
         resposta = input('Somente 1(sim) ou 2(não) como respostas validas:\n ')
-    if resposta == "2": exit()
+    if resposta == "2":
+        exit()
 
 
 def telaJogador(gridJogador):
@@ -33,13 +34,20 @@ def geraGridAleatorio():
             grid[c].insert(d, randint(0, 3))
             if grid[c][d] != 0:
                 grid[c][d] = 1
+    for c in range(1, 9, 1):
+        for d in range(1, 9, 1):
+            if grid[c][d] == 0 and grid[c + 1][d] != 0 and grid[c - 1][d] != 0 \
+                    and grid[c][d + 1] != 0 and grid[c][d - 1] != 0:
+                grid[c][d] = 1
     return grid
 
-def testeAcertoTiro(gridJogador, coordenadasTiroNumero, coordenadasTiroLetra):
-    if gridJogador[coordenadasTiroNumero] [coordenadasTiroLetra] == 0: acerto = True
-    else: acerto = False
-    return acerto
 
+def testeAcertoTiro(gridJogador, coordenadasTiroNumero, coordenadasTiroLetra):
+    if gridJogador[coordenadasTiroNumero][coordenadasTiroLetra] == 0:
+        acerto = True
+    else:
+        acerto = False
+    return acerto
 
 
 def printGrid(grid):
@@ -47,6 +55,7 @@ def printGrid(grid):
         print('\n')
         for d in range(0, 11, 1):
             print(grid[c][d], end='   ')
+
 
 def convertLetraCoordenada(letra):
     numero = 0
@@ -86,55 +95,40 @@ def testeVitoria(gridAleatorioJogo):
     for c in range(0, 10, 1):
         for d in range(0, 10, 1):
             if gridAleatorioJogo[c][d] == 0:
-                      return False
+                return False
     return True
 
 
+while (True):
+    gridJogador = [[' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
+                   ['1', '~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
+                   ['2', '~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
+                   ['3', '~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
+                   ['4', '~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
+                   ['5', '~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
+                   ['6', '~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
+                   ['7', '~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
+                   ['8', '~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
+                   ['9', '~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
+                   ['10', '~', '~', '~', '~', '~', '~', '~', '~', '~', '~']]
 
-gridJogador = [[' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
-              ['1', '~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
-              ['2', '~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
-              ['3', '~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
-              ['4', '~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
-              ['5', '~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
-              ['6', '~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
-              ['7', '~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
-              ['8', '~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
-              ['9', '~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
-              ['10', '~', '~', '~', '~', '~', '~', '~', '~', '~', '~']]
+    telaInicial()
+    gridAleatorioJogo = geraGridAleatorio()
 
+    while (True):
+        telaJogador(gridJogador)
+        # printGrid(gridAleatorio)
 
-telaInicial()
-gridAleatorioJogo = geraGridAleatorio()
+        coordenadaTiroJogadorNumero = digitarCoordenadasTiroNumero()
+        coordenadaTiroJogadorLetra = digitarCoordenadasTiroLetra()
 
-
-
-while(True):
-    telaJogador(gridJogador)
-    #printGrid(gridAleatorio)
-
-    coordenadaTiroJogadorNumero = digitarCoordenadasTiroNumero()
-    coordenadaTiroJogadorLetra = digitarCoordenadasTiroLetra()
-
-    if testeAcertoTiro(gridAleatorioJogo, coordenadaTiroJogadorNumero, coordenadaTiroJogadorLetra) == True:
-       print('Fogo!')
-       gridAleatorioJogo[coordenadaTiroJogadorNumero][coordenadaTiroJogadorLetra] = 1
-       gridJogador[coordenadaTiroJogadorNumero + 1][coordenadaTiroJogadorLetra + 1] = "F"
-       if testeVitoria(gridAleatorioJogo):
-           print('Vitoria')
-           break
-    else:
-        print('Agua!')
-        gridJogador[coordenadaTiroJogadorNumero + 1][coordenadaTiroJogadorLetra + 1] = "O"
-
-
-
-
-
-
-
-
-
-
-
-
+        if testeAcertoTiro(gridAleatorioJogo, coordenadaTiroJogadorNumero, coordenadaTiroJogadorLetra) == True:
+            print('Fogo!')
+            gridAleatorioJogo[coordenadaTiroJogadorNumero][coordenadaTiroJogadorLetra] = 1
+            gridJogador[coordenadaTiroJogadorNumero + 1][coordenadaTiroJogadorLetra + 1] = "F"
+            if testeVitoria(gridAleatorioJogo):
+                print('Vitoria')
+                break
+        else:
+            print('Agua!')
+            gridJogador[coordenadaTiroJogadorNumero + 1][coordenadaTiroJogadorLetra + 1] = "O"
