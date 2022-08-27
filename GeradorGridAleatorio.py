@@ -19,49 +19,54 @@ def Gera_Grid_Aleatorio():
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
-    while corvete[1] != 0:
-        lugarAleatorio = [randint(0, 9), randint(0, 9)]
-        if grid[lugarAleatorio[0]][lugarAleatorio[1]] != 1:
-            posicoes = Testar_Posicao_Vazia(grid, lugarAleatorio[0], lugarAleatorio[1], corvete[2])
-            grid = Colocar_Nave_Grid(grid, lugarAleatorio[0], lugarAleatorio[1], corvete[2], posicoes)
-            corvete[1] -= 1
+    # while corvete[1] != 0:
+    #     lugarAleatorio = [randint(0, 9), randint(0, 9)]
+    #     if grid[lugarAleatorio[0]][lugarAleatorio[1]] != 1:
+    #         posicoes = Testar_Posicao_Vazia(grid, lugarAleatorio[0], lugarAleatorio[1], corvete[2])
+    #         grid = Colocar_Nave_Grid(grid, lugarAleatorio[0], lugarAleatorio[1], corvete[2], posicoes)
+    #         corvete[1] -= 1
+    #
+    # while submarino[1] != 0:
+    #     lugarAleatorio = [randint(0, 9), randint(0, 9)]
+    #     if grid[lugarAleatorio[0]][lugarAleatorio[1]] != 1:
+    #         posicoes = Testar_Posicao_Vazia(grid, lugarAleatorio[0], lugarAleatorio[1], submarino[2])
+    #         grid = Colocar_Nave_Grid(grid, lugarAleatorio[0], lugarAleatorio[1], submarino[2], posicoes)
+    #         submarino[1] -= 1
 
-    while submarino[1] != 0:
-        lugarAleatorio = [randint(0, 9), randint(0, 9)]
-        if grid[lugarAleatorio[0]][lugarAleatorio[1]] != 1:
-            posicoes = Testar_Posicao_Vazia(grid, lugarAleatorio[0], lugarAleatorio[1], submarino[2])
-            grid = Colocar_Nave_Grid(grid, lugarAleatorio[0], lugarAleatorio[1], submarino[2], posicoes)
-            submarino[1] -= 1
-
-    #grid = Testar_E_Colocar_Nave_Grid(grid, corvete[2], corvete[1])
+    grid = Testar_E_Colocar_Nave_Grid(grid, corvete[2], corvete[1])
     return grid
 
-# def Testar_E_Colocar_Nave_Grid(grid, tamanhoNave, quantidadeNave):
-#     novoGrid = grid
-#     quantidadeIteracoes = quantidadeNave
-#     while quantidadeIteracoes !=0:
-#         lugarAleatorio = [randint(0, 9), randint(0, 9)]
-#         if novoGrid[lugarAleatorio[0]][lugarAleatorio[1]] != 1:
-#             posicoes = Testar_Posicao_Vazia(novoGrid, lugarAleatorio[0], lugarAleatorio[1], tamanhoNave)
-#             novoGrid = Colocar_Nave_Grid(novoGrid, lugarAleatorio[0], lugarAleatorio[1], tamanhoNave, posicoes)
-#             quantidadeIteracoes -= 1
-#     return novoGrid
+def Testar_E_Colocar_Nave_Grid(grid, tamanhoNave, quantidadeNave):
+    novoGrid = grid
+    quantidadeIteracoes = quantidadeNave
+    while quantidadeIteracoes !=0:
+        lugarAleatorio = [randint(0, 9), randint(0, 9)]
+        if novoGrid[lugarAleatorio[0]][lugarAleatorio[1]] != 1:
+            posicoes = Testar_Posicao_Vazia(novoGrid, lugarAleatorio[0], lugarAleatorio[1], tamanhoNave)
+            novoGrid = Colocar_Nave_Grid(novoGrid, lugarAleatorio[0], lugarAleatorio[1], tamanhoNave, posicoes)
+            quantidadeIteracoes -= 1
+    return novoGrid
 
 def Colocar_Nave_Grid(grid, posicaoX, posicaoY, tamanhoNave, posicoesValidas):
     novoGrid = grid
-    if posicoesValidas[0]:
+    orientacaoAleatoria = randint(0, 3)
+    while not posicoesValidas[orientacaoAleatoria]:
+        orientacaoAleatoria = randint(0, 3)
+
+
+    if orientacaoAleatoria == 0:
         for i in range(0, tamanhoNave, 1):
             novoGrid[posicaoX - i][posicaoY] = 1
         return novoGrid
-    elif posicoesValidas[1]:
+    elif orientacaoAleatoria == 1:
         for i in range(0, tamanhoNave, 1):
             novoGrid[posicaoX + i][posicaoY] = 1
         return novoGrid
-    elif posicoesValidas[2]:
+    elif orientacaoAleatoria == 2:
         for i in range(0, tamanhoNave, 1):
             novoGrid[posicaoX][posicaoY - i] = 1
         return novoGrid
-    elif posicoesValidas[3]:
+    elif orientacaoAleatoria == 3:
         for i in range(0, tamanhoNave, 1):
             novoGrid[posicaoX][posicaoY + i] = 1
         return novoGrid
@@ -74,12 +79,21 @@ def Testar_Posicao_Vazia(grid, posicaoX, posicaoY, tamanhoNave):
     atras = True
 
     for i in range(0, tamanhoNave, 1):
-        if grid[posicaoX - i][posicaoY] == 1:
+
+        if posicaoX - i < 0:
             cima = False
+        elif grid[posicaoX - i][posicaoY] == 1:
+            cima = False
+        if posicaoX + i > 9:
+            baixo = False
         elif grid[posicaoX + i][posicaoY] == 1:
             baixo = False                               #arrumar teste pois lista fora de range ao testar + i
+        if posicaoY + i > 9:
+            frente = False
         elif grid[posicaoX][posicaoY + i] == 1:
             frente = False
+        if posicaoY - i < 0:
+            atras = False
         elif grid[posicaoX][posicaoY - i] == 1:
             atras = False
 
