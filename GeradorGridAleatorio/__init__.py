@@ -22,6 +22,9 @@ def Gera_Grid_Aleatorio():
 
     grid = Testar_E_Colocar_Nave_Grid(grid, corvete[2], corvete[1])
     grid = Testar_E_Colocar_Nave_Grid(grid, submarino[2], submarino[1])
+    grid = Testar_E_Colocar_Nave_Grid(grid, fragata[2], fragata[1])
+    grid = Testar_E_Colocar_Nave_Grid(grid, destruidor[2], destruidor[1])
+    grid = Testar_E_Colocar_Nave_Grid(grid, cruzador[2], cruzador[1])
     return grid
 
 def Testar_E_Colocar_Nave_Grid(grid, tamanhoNave, quantidadeNave):
