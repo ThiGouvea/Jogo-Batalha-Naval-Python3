@@ -91,7 +91,6 @@ def Testar_Posicao_Vazia(grid, posicaoX, posicaoY, tamanhoNave):
     if not cima and not baixo and not frente and not atras:
         possuiVazio = False
 
-    print(cima, baixo, frente, atras, possuiVazio)
     return [cima, baixo, frente, atras, possuiVazio]
 
 
